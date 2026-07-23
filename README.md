@@ -48,7 +48,7 @@ pm-tool/
 ├── data/db.json                # Auto-created on first run (your local "database")
 ├── package.json
 └── public/
-    ├── index.html               # Login / register page
+    ├── index.html               # Login/register page
     ├── dashboard.html             # Projects list — stats, search/sort, grid/table views
     ├── board.html                  # Kanban board — tasks, comments, invites, notifications
     ├── css/
@@ -134,21 +134,4 @@ personal `user:<id>` room plus any `project:<id>` room it's viewing.
 | `typing`             | Both directions  | `{ projectId, taskId, name }`       | Typing indicator while commenting      |
 | `notification:new`   | Server → Client  | notification object                 | Real-time notification + toast + bell shake |
 
-## Notes for Extending This Project
-
-- **Swap the database:** Replace the functions in `db.js` with real
-  MongoDB (Mongoose) or PostgreSQL (Sequelize/Prisma) queries — no other file
-  needs to change since every route only calls `load()` / `save()`.
-- **Environment variables:** Set `JWT_SECRET` and `PORT` in a `.env` file for
-  production (currently uses sane development defaults).
-- **Custom columns:** The board currently uses fixed To Do / In Progress /
-  Done columns; extend `VALID_STATUSES` in `routes/tasks.js` and the
-  `COLUMNS` array in `public/js/board.js` to support custom columns per project.
-- **Scaling WebSockets:** For multiple server instances, add the
-  `@socket.io/redis-adapter` so rooms are shared across processes.
-- **Deployment:** Works as-is on Render, Railway, Heroku, or a VPS — just run
-  `npm install && npm start` with `PORT` set by the platform (make sure the
-  platform supports WebSocket connections, not just HTTP).
-
----
 Built for the **CodeAlpha Web Development Internship — Task 3**.
