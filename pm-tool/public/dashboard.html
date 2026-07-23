@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TaskFlow | Dashboard</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/dashboard.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="dashboard.html" class="brand"><i class="fa-solid fa-diagram-project"></i> TaskFlow</a>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html" class="nav-link active"><i class="fa-solid fa-table-columns"></i> Dashboard</a>
+      <div class="notif-wrap">
+        <button class="btn-icon notif-bell" id="notifBellBtn"><i class="fa-solid fa-bell"></i><span class="notif-badge" id="notifBadge" style="display:none;">0</span></button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <h4>Notifications</h4>
+            <button class="btn btn-sm btn-ghost" id="markAllReadBtn">Mark all read</button>
+          </div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="theme-toggle" title="Toggle dark mode"></button>
+      <img class="avatar avatar-sm" id="navAvatar" src="" alt="Me" style="cursor:pointer;" title="Log out" />
+    </div>
+    <button class="hamburger"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="dash-hero">
+    <div class="dash-hero-content">
+      <div>
+        <h1 id="heroGreeting">Welcome back!</h1>
+        <p>Create project boards, assign tasks to your team, and track progress together — updated live.</p>
+      </div>
+      <button class="btn btn-primary" id="newProjectBtn"><i class="fa-solid fa-plus"></i> New Project</button>
+    </div>
+  </div>
+
+  <div class="dash-stats">
+    <div class="stat-card card">
+      <div class="stat-icon blue"><i class="fa-solid fa-folder-open"></i></div>
+      <div class="stat-info"><strong id="statProjects">0</strong><span>Active Projects</span></div>
+    </div>
+    <div class="stat-card card">
+      <div class="stat-icon teal"><i class="fa-solid fa-list-check"></i></div>
+      <div class="stat-info"><strong id="statTasks">0</strong><span>Total Tasks</span></div>
+    </div>
+    <div class="stat-card card">
+      <div class="stat-icon green"><i class="fa-solid fa-circle-check"></i></div>
+      <div class="stat-info"><strong id="statDone">0</strong><span>Completed</span></div>
+    </div>
+    <div class="stat-card card">
+      <div class="stat-icon amber"><i class="fa-solid fa-users"></i></div>
+      <div class="stat-info"><strong id="statMembers">0</strong><span>Collaborators</span></div>
+    </div>
+  </div>
+
+  <div class="dash-toolbar">
+    <div class="dash-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="projectSearch" class="form-control" placeholder="Search your projects..." />
+    </div>
+    <select id="projectSort" class="form-control">
+      <option value="newest">Newest first</option>
+      <option value="name">Name (A-Z)</option>
+      <option value="tasks">Most tasks</option>
+    </select>
+    <div class="view-toggle">
+      <button class="active" data-view="grid"><i class="fa-solid fa-table-cells-large"></i> Grid</button>
+      <button data-view="table"><i class="fa-solid fa-list"></i> List</button>
+    </div>
+  </div>
+
+  <div class="projects-grid" id="projectsGrid"></div>
+
+  <div class="projects-table-wrap" id="projectsTableWrap">
+    <table class="data-table" id="projectsTable">
+      <thead>
+        <tr>
+          <th data-sort="name">Project</th>
+          <th data-sort="taskCount">Tasks</th>
+          <th data-sort="members">Members</th>
+          <th data-sort="createdAt">Created</th>
+        </tr>
+      </thead>
+      <tbody id="projectsTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="projectsLoading" class="spinner"></div>
+</div>
+
+<!-- Create project modal -->
+<div class="modal-overlay" id="createProjectModal">
+  <div class="modal">
+    <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-diagram-project"></i> Create New Project</h2>
+    <form id="createProjectForm" novalidate>
+      <div class="form-group">
+        <label for="projName">Project name</label>
+        <input class="form-control" type="text" id="projName" placeholder="e.g. Website Redesign" maxlength="60" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="projDesc">Description (optional)</label>
+        <textarea class="form-control" id="projDesc" rows="3" maxlength="200" placeholder="What is this project about?"></textarea>
+        <div class="char-counter" id="projDescCounter">0 / 200</div>
+      </div>
+      <div class="form-group">
+        <label>Board color</label>
+        <div class="members-row" id="colorPicker"></div>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="createProjectBtn">
+        <i class="fa-solid fa-plus"></i> Create Project
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/dashboard.js"></script>
+</body>
+</html>

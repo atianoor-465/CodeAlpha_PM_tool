@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TaskFlow | Board</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/board.css" />
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="container">
+    <a href="dashboard.html" class="brand"><i class="fa-solid fa-diagram-project"></i> TaskFlow</a>
+    <div class="nav-links" id="navLinks">
+      <a href="dashboard.html" class="nav-link"><i class="fa-solid fa-arrow-left"></i> Dashboard</a>
+      <div class="notif-wrap">
+        <button class="btn-icon notif-bell" id="notifBellBtn"><i class="fa-solid fa-bell"></i><span class="notif-badge" id="notifBadge" style="display:none;">0</span></button>
+        <div class="notif-dropdown" id="notifDropdown">
+          <div class="notif-dropdown-header">
+            <h4>Notifications</h4>
+            <button class="btn btn-sm btn-ghost" id="markAllReadBtn">Mark all read</button>
+          </div>
+          <div id="notifList"></div>
+        </div>
+      </div>
+      <button class="theme-toggle" title="Toggle dark mode"></button>
+      <img class="avatar avatar-sm" id="navAvatar" src="" alt="Me" style="cursor:pointer;" title="Log out" />
+    </div>
+    <button class="hamburger"><i class="fa-solid fa-bars"></i></button>
+  </div>
+</nav>
+
+<div class="container">
+  <div class="board-header">
+    <div class="board-title-row">
+      <div>
+        <h1><span class="board-color-dot" id="boardColorDot"></span> <span id="boardName">Loading...</span></h1>
+        <p class="board-desc" id="boardDesc"></p>
+      </div>
+      <div class="board-actions">
+        <div class="avatar-stack" id="boardMembers"></div>
+        <button class="btn btn-outline btn-sm" id="inviteMemberBtn"><i class="fa-solid fa-user-plus"></i> Invite</button>
+        <button class="btn btn-ghost btn-sm" id="deleteProjectBtn" style="display:none;"><i class="fa-solid fa-trash"></i></button>
+      </div>
+    </div>
+  </div>
+
+  <div class="board-toolbar card">
+    <div class="board-search">
+      <i class="fa-solid fa-magnifying-glass"></i>
+      <input type="text" id="taskSearch" class="form-control" placeholder="Search tasks..." />
+    </div>
+    <select id="filterPriority" class="form-control">
+      <option value="">All priorities</option>
+      <option value="high">High priority</option>
+      <option value="medium">Medium priority</option>
+      <option value="low">Low priority</option>
+    </select>
+    <select id="filterAssignee" class="form-control">
+      <option value="">All assignees</option>
+    </select>
+    <select id="sortTasks" class="form-control">
+      <option value="order">Manual order</option>
+      <option value="dueDate">Due date</option>
+      <option value="priority">Priority</option>
+      <option value="newest">Newest</option>
+      <option value="title">Title (A-Z)</option>
+    </select>
+    <div class="view-toggle">
+      <button class="active" data-view="board"><i class="fa-solid fa-table-columns"></i> Board</button>
+      <button data-view="list"><i class="fa-solid fa-list"></i> List</button>
+    </div>
+  </div>
+
+  <!-- KANBAN BOARD VIEW -->
+  <div class="kanban-view" id="kanbanView">
+    <div class="kanban-board" id="kanbanBoard">
+      <!-- Columns injected by JS -->
+    </div>
+  </div>
+
+  <!-- LIST (TABLE) VIEW -->
+  <div class="task-list-view" id="taskListView">
+    <table class="data-table" id="taskTable">
+      <thead>
+        <tr>
+          <th data-sort="title">Task</th>
+          <th data-sort="status">Status</th>
+          <th data-sort="priority">Priority</th>
+          <th data-sort="assignee">Assignee</th>
+          <th data-sort="dueDate">Due Date</th>
+        </tr>
+      </thead>
+      <tbody id="taskTableBody"></tbody>
+    </table>
+  </div>
+
+  <div id="boardLoading" class="spinner"></div>
+</div>
+
+<!-- Create/Edit task modal -->
+<div class="modal-overlay" id="taskModal">
+  <div class="modal modal-lg">
+    <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+    <h2 id="taskModalTitle"><i class="fa-solid fa-note-sticky"></i> New Task</h2>
+    <form id="taskForm" novalidate>
+      <div class="form-group">
+        <label for="taskTitle">Title</label>
+        <input class="form-control" type="text" id="taskTitle" maxlength="100" placeholder="e.g. Design the homepage hero" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="task-detail-grid">
+        <div class="task-detail-main">
+          <div class="form-group">
+            <label for="taskDesc">Description</label>
+            <textarea class="form-control" id="taskDesc" rows="4" maxlength="1000" placeholder="Add more detail..."></textarea>
+          </div>
+
+          <h4 id="attachmentsHeading" style="display:none;">Attachments</h4>
+          <div class="attach-gallery" id="attachGallery" style="display:none;"></div>
+
+          <div id="commentsSection" style="display:none;">
+            <h4>Comments</h4>
+            <div class="typing-indicator" id="typingIndicator"></div>
+            <div class="comments-list" id="taskCommentsList"></div>
+            <form class="comment-form" id="commentForm">
+              <input type="text" id="commentInput" class="form-control" placeholder="Write a comment..." maxlength="500" />
+              <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+            </form>
+          </div>
+        </div>
+        <div class="task-detail-side">
+          <div class="form-group">
+            <label for="taskStatus">Status</label>
+            <select class="form-control" id="taskStatus">
+              <option value="todo">To Do</option>
+              <option value="inprogress">In Progress</option>
+              <option value="done">Done</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskPriority">Priority</label>
+            <select class="form-control" id="taskPriority">
+              <option value="low">Low</option>
+              <option value="medium" selected>Medium</option>
+              <option value="high">High</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskAssignee">Assignee</label>
+            <select class="form-control" id="taskAssignee">
+              <option value="">Unassigned</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label for="taskDueDate">Due date</label>
+            <input class="form-control" type="date" id="taskDueDate" />
+          </div>
+          <button class="btn btn-primary btn-block" type="submit" id="taskSubmitBtn">
+            <i class="fa-solid fa-check"></i> Save Task
+          </button>
+          <button class="btn btn-ghost btn-block" type="button" id="deleteTaskBtn" style="display:none; margin-top:10px;">
+            <i class="fa-solid fa-trash"></i> Delete Task
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Invite member modal -->
+<div class="modal-overlay" id="inviteModal">
+  <div class="modal">
+    <button class="modal-close" data-close-modal><i class="fa-solid fa-xmark"></i></button>
+    <h2><i class="fa-solid fa-user-plus"></i> Invite Member</h2>
+    <div class="form-group">
+      <label for="inviteUsernameInput">Search by username</label>
+      <input class="form-control" type="text" id="inviteUsernameInput" placeholder="Type a username..." autocomplete="off" />
+      <span class="field-error" id="inviteError"></span>
+    </div>
+    <div id="inviteResults"></div>
+    <h4 style="font-size:0.78rem; text-transform:uppercase; color:var(--text-muted); margin:18px 0 8px;">Current members</h4>
+    <div class="members-row" id="currentMembersList"></div>
+  </div>
+</div>
+
+<!-- Lightbox for attachments -->
+<div class="lightbox-overlay" id="lightboxOverlay">
+  <button class="lightbox-close" id="lightboxClose"><i class="fa-solid fa-xmark"></i></button>
+  <button class="lightbox-prev" id="lightboxPrev"><i class="fa-solid fa-chevron-left"></i></button>
+  <img id="lightboxImg" src="" alt="Attachment" />
+  <button class="lightbox-next" id="lightboxNext"><i class="fa-solid fa-chevron-right"></i></button>
+</div>
+
+<div id="toast-container"></div>
+<script src="https://cdn.socket.io/4.7.5/socket.io.min.js"></script>
+<script src="js/utils.js"></script>
+<script src="js/board.js"></script>
+</body>
+</html>

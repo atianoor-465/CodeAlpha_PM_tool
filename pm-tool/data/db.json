@@ -1,0 +1,36 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "username": "ato",
+      "name": "atia",
+      "email": "atianoor132@gmail.com",
+      "passwordHash": "$2a$10$k34y5FjLgZCNn2DPtzKu0.DYopJu3kbIhcNRTVbSOIVsJUrSv8Tfu",
+      "avatar": "https://api.dicebear.com/7.x/initials/svg?seed=atia&backgroundType=gradientLinear",
+      "createdAt": "2026-07-22T16:48:06.977Z"
+    }
+  ],
+  "projects": [
+    {
+      "id": 1,
+      "name": "mehndi",
+      "description": "ueoe2jdijdoir3iuhfdiuf",
+      "color": "#ef4444",
+      "ownerId": 1,
+      "memberIds": [
+        1
+      ],
+      "createdAt": "2026-07-22T16:48:57.032Z"
+    }
+  ],
+  "tasks": [],
+  "comments": [],
+  "notifications": [],
+  "nextIds": {
+    "users": 2,
+    "projects": 2,
+    "tasks": 1,
+    "comments": 1,
+    "notifications": 1
+  }
+}

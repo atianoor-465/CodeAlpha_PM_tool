@@ -1,0 +1,92 @@
+/* ============================================================
+   BOARD PAGE CSS - Kanban board, drag & drop, task detail modal
+   ============================================================ */
+
+.board-header { margin-top: 20px; margin-bottom: 20px; }
+.board-title-row { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 14px; }
+.board-title-row h1 { font-size: 1.5rem; display: flex; align-items: center; gap: 12px; }
+.board-color-dot { width: 14px; height: 14px; border-radius: 4px; }
+.board-desc { color: var(--text-muted); font-size: 0.9rem; margin-top: 4px; }
+.board-actions { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
+.board-toolbar { display: flex; align-items: center; gap: 12px; padding: 14px 18px; margin-bottom: 20px; flex-wrap: wrap; }
+.board-search { flex: 1; min-width: 180px; position: relative; }
+.board-search i { position: absolute; left: 14px; top: 50%; transform: translateY(-50%); color: var(--text-muted); }
+.board-search input { padding-left: 36px; }
+.board-toolbar select { width: auto; }
+
+/* ---------- Kanban board ---------- */
+.kanban-board { display: flex; gap: 18px; overflow-x: auto; padding-bottom: 20px; align-items: flex-start; }
+.kanban-column {
+  background: var(--surface); border-radius: var(--radius); width: 310px; flex-shrink: 0;
+  box-shadow: var(--shadow-sm); display: flex; flex-direction: column; max-height: calc(100vh - 260px);
+  transition: var(--transition);
+}
+.kanban-column.drag-over { box-shadow: 0 0 0 3px var(--primary); background: rgba(37,99,235,0.03); }
+.kanban-column-header { padding: 16px 18px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid var(--border); }
+.kanban-column-header h3 { font-size: 0.95rem; display: flex; align-items: center; gap: 8px; }
+.column-dot { width: 10px; height: 10px; border-radius: 50%; }
+.column-dot.todo { background: var(--text-muted); }
+.column-dot.inprogress { background: var(--primary); }
+.column-dot.done { background: var(--success); }
+.column-count { background: var(--bg); color: var(--text-muted); font-size: 0.72rem; font-weight: 700; padding: 2px 9px; border-radius: 10px; }
+.kanban-column-body { padding: 14px; overflow-y: auto; flex: 1; min-height: 80px; }
+.add-task-btn { margin: 0 14px 14px; padding: 10px; border-radius: 9px; background: var(--bg); color: var(--text-muted); font-weight: 600; font-size: 0.85rem; display: flex; align-items: center; justify-content: center; gap: 6px; transition: var(--transition); }
+.add-task-btn:hover { background: var(--primary); color: #fff; }
+
+/* ---------- Task card ---------- */
+.task-card {
+  background: var(--surface); border: 1px solid var(--border); border-radius: 11px; padding: 14px;
+  margin-bottom: 12px; cursor: grab; transition: var(--transition); animation: fadeInUp 0.3s ease;
+}
+.task-card:hover { box-shadow: var(--shadow-md); transform: translateY(-2px); border-color: var(--primary-light); }
+.task-card.dragging { opacity: 0.4; }
+.task-card-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 8px; gap: 8px; }
+.task-card-title { font-size: 0.92rem; font-weight: 600; line-height: 1.4; }
+.task-card-desc { font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.task-card-footer { display: flex; align-items: center; justify-content: space-between; margin-top: 10px; }
+.task-card-meta { display: flex; align-items: center; gap: 10px; font-size: 0.75rem; color: var(--text-muted); }
+.task-card-meta span { display: flex; align-items: center; gap: 4px; }
+.task-card-meta .overdue { color: var(--danger); font-weight: 700; }
+
+/* ---------- Task detail modal ---------- */
+.task-detail-grid { display: grid; grid-template-columns: 1fr 220px; gap: 26px; }
+.task-detail-main h4 { font-size: 0.78rem; text-transform: uppercase; color: var(--text-muted); margin: 18px 0 8px; letter-spacing: 0.4px; }
+.task-detail-main h4:first-child { margin-top: 0; }
+.task-detail-side .form-group label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.4px; }
+
+/* Attachments gallery inside task detail */
+.attach-gallery { display: grid; grid-template-columns: repeat(auto-fill, minmax(90px, 1fr)); gap: 10px; margin-top: 8px; }
+.attach-item { aspect-ratio: 1/1; border-radius: 9px; overflow: hidden; cursor: pointer; position: relative; }
+.attach-item img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.4s ease; }
+.attach-item:hover img { transform: scale(1.12); }
+.attach-add-btn { border: 2px dashed var(--border); border-radius: 9px; aspect-ratio: 1/1; display: flex; align-items: center; justify-content: center; color: var(--text-muted); background: var(--bg); transition: var(--transition); }
+.attach-add-btn:hover { border-color: var(--primary); color: var(--primary); }
+
+/* ---------- Comments in task modal ---------- */
+.comments-list { max-height: 260px; overflow-y: auto; margin-bottom: 12px; }
+.comment-item { display: flex; gap: 10px; padding: 10px 0; animation: fadeInUp 0.3s ease; }
+.comment-bubble { background: var(--bg); border-radius: 12px; padding: 9px 14px; flex: 1; }
+.comment-bubble strong { font-size: 0.83rem; }
+.comment-bubble p { font-size: 0.86rem; margin-top: 2px; word-break: break-word; }
+.comment-time { font-size: 0.7rem; color: var(--text-muted); margin-top: 4px; display: block; }
+.comment-form { display: flex; gap: 10px; align-items: center; }
+.comment-form input { flex: 1; padding: 9px 14px; border-radius: 20px; }
+.comment-form button { background: var(--primary); color: #fff; width: 38px; height: 38px; border-radius: 50%; flex-shrink: 0; transition: var(--transition); }
+.comment-form button:hover { transform: scale(1.1) rotate(15deg); background: var(--primary-dark); }
+.typing-indicator { font-size: 0.75rem; color: var(--text-muted); font-style: italic; height: 18px; margin-bottom: 6px; }
+
+/* ---------- Members ---------- */
+.members-row { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-top: 8px; }
+.member-chip { display: flex; align-items: center; gap: 8px; background: var(--bg); border-radius: 20px; padding: 5px 12px 5px 5px; font-size: 0.82rem; font-weight: 600; }
+
+/* ---------- List (table) view of tasks ---------- */
+.task-list-view { display: none; }
+.task-list-view.active { display: block; }
+.kanban-view.hidden { display: none; }
+
+/* ---------- Responsive ---------- */
+@media (max-width: 768px) {
+  .task-detail-grid { grid-template-columns: 1fr; }
+  .kanban-column { width: 270px; }
+}

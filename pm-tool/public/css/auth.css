@@ -1,0 +1,77 @@
+/* ============================================================
+   AUTH PAGE CSS - Professional animated background
+   ============================================================ */
+
+.auth-page {
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+  background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #0ea5a4 100%);
+  background-size: 250% 250%;
+  animation: gradientShift 16s ease infinite;
+  padding: 20px;
+}
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Animated grid overlay for a professional "tech" feel */
+.grid-overlay {
+  position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.05) 1px, transparent 1px);
+  background-size: 46px 46px;
+  animation: gridMove 20s linear infinite;
+}
+@keyframes gridMove {
+  from { background-position: 0 0; }
+  to { background-position: 46px 46px; }
+}
+
+/* Floating soft orbs */
+.orb { position: absolute; border-radius: 50%; filter: blur(20px); opacity: 0.35; animation: floatOrb 12s ease-in-out infinite; }
+.orb1 { width: 300px; height: 300px; background: radial-gradient(circle, #2563eb, transparent 70%); top: -80px; left: -60px; animation-duration: 13s; }
+.orb2 { width: 380px; height: 380px; background: radial-gradient(circle, #0ea5a4, transparent 70%); bottom: -120px; right: -100px; animation-duration: 16s; animation-delay: 1s; }
+.orb3 { width: 200px; height: 200px; background: radial-gradient(circle, #60a5fa, transparent 70%); top: 45%; right: 8%; animation-duration: 10s; animation-delay: 2s; }
+@keyframes floatOrb {
+  0%, 100% { transform: translate(0,0) scale(1); }
+  33% { transform: translate(35px,-40px) scale(1.1); }
+  66% { transform: translate(-25px,25px) scale(0.92); }
+}
+
+/* Floating particles (small dots drifting upward) */
+.particle { position: absolute; width: 5px; height: 5px; background: rgba(255,255,255,0.5); border-radius: 50%; animation: particleUp linear infinite; }
+@keyframes particleUp {
+  from { transform: translateY(100vh) scale(0.5); opacity: 0; }
+  10% { opacity: 1; } 90% { opacity: 1; }
+  to { transform: translateY(-10vh) scale(1.1); opacity: 0; }
+}
+
+.auth-card {
+  position: relative; z-index: 2; background: var(--surface); border-radius: 18px; box-shadow: var(--shadow-lg);
+  width: 100%; max-width: 460px; padding: 42px 38px; text-align: center; animation: fadeInUp 0.6s ease;
+}
+.auth-logo {
+  font-family: var(--font-heading); font-size: 1.9rem; font-weight: 700; margin-bottom: 6px;
+  color: var(--primary); display: flex; align-items: center; justify-content: center; gap: 10px;
+}
+.auth-logo i { background: var(--primary); color: #fff; width: 38px; height: 38px; border-radius: 10px; display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+.auth-tagline { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 26px; }
+
+.auth-tabs { display: flex; background: var(--bg); border-radius: 12px; padding: 4px; margin-bottom: 28px; position: relative; }
+.auth-tab { flex: 1; padding: 10px; border-radius: 9px; font-weight: 700; font-size: 0.9rem; color: var(--text-muted); z-index: 1; transition: var(--transition); background: transparent; }
+.auth-tab.active { color: #fff; }
+.auth-tab-slider {
+  position: absolute; top: 4px; left: 4px; width: calc(50% - 4px); height: calc(100% - 8px);
+  background: var(--primary); border-radius: 9px; transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+}
+.auth-tab-slider.to-register { transform: translateX(100%); }
+
+.auth-form { display: none; text-align: left; }
+.auth-form.active { display: block; animation: fadeIn 0.3s ease; }
+.auth-divider { color: var(--text-muted); font-size: 0.8rem; margin: 6px 0 0; }
+
+@media (max-width: 480px) { .auth-card { padding: 32px 24px; } }

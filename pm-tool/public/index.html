@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>TaskFlow | Login or Sign Up</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+<link rel="stylesheet" href="css/style.css" />
+<link rel="stylesheet" href="css/auth.css" />
+</head>
+<body>
+
+<div class="auth-page">
+  <div class="grid-overlay"></div>
+  <div class="orb orb1"></div>
+  <div class="orb orb2"></div>
+  <div class="orb orb3"></div>
+  <div id="particles"></div>
+
+  <div class="auth-card">
+    <div class="auth-logo"><i class="fa-solid fa-diagram-project"></i> TaskFlow</div>
+    <p class="auth-tagline">Plan projects, assign tasks, and collaborate in real time.</p>
+
+    <div class="auth-tabs">
+      <button class="auth-tab active" id="tabLogin" type="button">Login</button>
+      <button class="auth-tab" id="tabRegister" type="button">Sign Up</button>
+      <div class="auth-tab-slider" id="tabSlider"></div>
+    </div>
+
+    <form class="auth-form active" id="loginForm" novalidate>
+      <div class="form-group">
+        <label for="loginEmail">Email address</label>
+        <input class="form-control" type="email" id="loginEmail" placeholder="you@company.com" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <input class="form-control" type="password" id="loginPassword" placeholder="••••••••" required />
+        <span class="field-error"></span>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="loginSubmitBtn">
+        <i class="fa-solid fa-right-to-bracket"></i> Log In
+      </button>
+      <p class="auth-divider">New here? Create an account to start a project.</p>
+    </form>
+
+    <form class="auth-form" id="registerForm" novalidate>
+      <div class="form-group">
+        <label for="regName">Full name</label>
+        <input class="form-control" type="text" id="regName" placeholder="Jane Doe" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="regUsername">Username</label>
+        <input class="form-control" type="text" id="regUsername" placeholder="janedoe" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="regEmail">Email address</label>
+        <input class="form-control" type="email" id="regEmail" placeholder="you@company.com" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="regPassword">Password</label>
+        <input class="form-control" type="password" id="regPassword" placeholder="At least 6 characters" required />
+        <span class="field-error"></span>
+      </div>
+      <div class="form-group">
+        <label for="regConfirmPassword">Confirm password</label>
+        <input class="form-control" type="password" id="regConfirmPassword" placeholder="Repeat your password" required />
+        <span class="field-error"></span>
+      </div>
+      <button class="btn btn-primary btn-block" type="submit" id="registerSubmitBtn">
+        <i class="fa-solid fa-user-plus"></i> Create Account
+      </button>
+    </form>
+  </div>
+</div>
+
+<div id="toast-container"></div>
+<script src="js/utils.js"></script>
+<script src="js/auth.js"></script>
+</body>
+</html>
